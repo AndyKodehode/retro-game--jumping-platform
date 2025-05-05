@@ -1,3 +1,6 @@
+
+/*
+
 document.addEventListener('DOMContentLoaded', function () {
   const gameFrame = document.querySelector('.gameFrame');
 
@@ -27,4 +30,41 @@ document.addEventListener('DOMContentLoaded', function () {
   setTimeout(spawnObjects, delay);
 });
 
+*/
+
 /*gameFrame.querySelectorAll('.object').forEach((el) => el.remove());*/
+
+
+const Mario = document.querySelector('.MarioDiv');
+
+let marioPositionX = 4; // grid-column
+let marioPositionY = 10;  // grid-row
+let timerId;
+
+document.addEventListener('keydown', function(e) {
+  if (e.code === 'Space') {
+    timerId = setInterval(function(){
+      marioPositionX += 1;
+      marioPositionY -= 1;
+  
+      Mario.style.gridColumn = marioPositionX;
+      Mario.style.gridRow = marioPositionY;
+      console.log('X:', marioPositionX, 'Y:', marioPositionY);
+
+      if (
+        marioPositionX > 20 || 
+        marioPositionX < 1 || 
+        marioPositionY > 20 || 
+        marioPositionY < 1
+      ) {
+        clearInterval(timerId);
+        timerId = null; // Allow restarting later
+      }
+    }, 200)
+
+     
+   
+  }
+
+  
+});
