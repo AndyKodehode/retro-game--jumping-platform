@@ -33,8 +33,7 @@ body {
 .MarioDiv{
   width: 20px;
   height: 45px;
-  grid-column: 4;
-  grid-row: 10;
+  
 }
 
 #Mario{
