@@ -10,6 +10,39 @@ let marioX = 4; // setter column for Mario
 let marioY = 10; // setter row for mario
 
 let MarioSpawned = false 
+let fallingTimer = null;
+
+function isStandingOnObject(x, y) {
+  const objects = document.querySelectorAll('.object');
+  for (let obj of objects) {
+    const objX = parseInt(obj.style.gridColumn);
+    const objY = parseInt(obj.style.gridRow);
+    if (objX === x && objY === y + 1) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function startFalling() {
+  if (fallingTimer) return;
+
+  fallingTimer = setInterval(() => {
+    if (!isStandingOnObject(marioX, marioY)) {
+      marioY++;
+      moveMario(marioX, marioY);
+      if (isOutOfBounds(marioX, marioY)) {
+        clearInterval(fallingTimer);
+        fallingTimer = null;
+      }
+    } else {
+      clearInterval(fallingTimer);
+      fallingTimer = null;
+    }
+  }, 200);
+}
+
+
   
   function spawnOneObject() {
     const objects = gameFrame.querySelectorAll('.object'); //legger alle object i objects
@@ -22,7 +55,7 @@ let MarioSpawned = false
     newObject.classList.add('object'); // gir div klassen object
   
     const col = Math.floor(Math.random() * 20) + 1; // velger en column mellom 1 og 20
-    const row = Math.floor(Math.random() * 10) + 11; //velger en rad mellom 1 og 20
+    const row = Math.floor(Math.random() * 5) + 6; //velger en rad mellom 6 og 10
   
     newObject.style.gridColumn = col; // legger tallet fra col til style gridColumn
     newObject.style.gridRow = row; // legger tallet fra row til gridRow
@@ -30,8 +63,11 @@ let MarioSpawned = false
     gameFrame.appendChild(newObject); //legger newObject til gameFrame
   
     if (!MarioSpawned) {
-      moveMario(col, row - 1); // place Mario above block
-      MarioSpawned = true;
+      marioX = col;
+     marioY = row - 1; // Save position
+     moveMario(marioX, marioY); // Move visually
+     MarioSpawned = true;
+     startFalling(); 
     }
   }
 
@@ -109,10 +145,10 @@ function jumpMario() {
     console.log('step:' + step)
 
     // Jump up for a few steps, then fall
-    if (step <= 5) {
+    if (step <= 3) {
       marioY--;
       marioX++
-    } else if (step <= 10) {
+    } else if(step <= 10){
       marioY++;
       
     }
@@ -122,6 +158,7 @@ function jumpMario() {
     if (step === 10 || isOutOfBounds(marioX, marioY)) {
       clearInterval(timerId);
       timerId = null
+      startFalling()
       
     }
   }, 100);

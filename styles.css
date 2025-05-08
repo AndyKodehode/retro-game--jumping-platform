@@ -24,7 +24,7 @@ body {
 }
 
 .object {
-  background-color: blue;
+  background-color: rgb(255, 191, 0);
   border-radius: 20%;
   width: 100%;
   height: 40%;
@@ -33,14 +33,24 @@ body {
 .MarioDiv{
   width: 20px;
   height: 45px;
+  position: absolute;
   
 }
 
 #Mario{
+
  width: 100%;
  height: 100%;
  object-fit: cover;
  
+}
+
+#water{
+  grid-column-start: 1;
+  grid-column-end: 21;
+  grid-row-start: 17;  
+  grid-row-end: 21;
+  background-color: rgb(16, 16, 193);
 }
 
 @keyframes slideDown {
